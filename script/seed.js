@@ -12,7 +12,7 @@ async function seed() {
 
   // Creating Users
   const users = await Promise.all([
-    User.create({ username: 'cody123', password: '123' , firstName: 'Cody',  email: 'cody@seed.js' }),
+    User.create({ username: 'cody123', password: '123' , firstName: 'Cody',  email: 'cody@seed.js', type:'admin' }),
     User.create({ username: 'murphy123', password: '123', firstName: 'Murphy',  email: 'murphy@seed.js'  }),
   ])
 
@@ -50,6 +50,7 @@ async function seed() {
 
   await users[0].addQuiz(ennseven);
   await users[0].addQuiz(lovetouch);
+  await users[1].addQuiz(lovetouch);
   await users[1].addQuiz(ennfour);
   
 

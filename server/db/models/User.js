@@ -25,7 +25,12 @@ const User = db.define('user', {
     unique:true, 
     allowNull: false,
 
-  }
+  },
+
+  type: {
+    type: Sequelize.ENUM('user', 'admin'),
+    defaultValue: 'user',
+  },
 })
 
 module.exports = User
