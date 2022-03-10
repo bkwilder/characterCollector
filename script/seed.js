@@ -1,6 +1,6 @@
 'use strict'
 
-const {db, models: {User, Quiz} } = require('../server/db')
+const {db, models: {User, Quiz, Note, Ring} } = require('../server/db')
 
 /**
  * seed - this function clears the database, updates tables to
@@ -46,12 +46,16 @@ async function seed() {
         linkToResource: 'https://www.enneagraminstitute.com/type-descriptions'
     }
   ]
+  const notes = [{note: 'hello'}, {note: 'goodbye'}]
   const [ennseven, ennfour, lovetouch] = await Promise.all(quizzesVals.map(quiz => Quiz.create(quiz)))
-
+  const [note1, note2] = await Promise.all(notes.map(note => Note.create(note)))
   await users[0].addQuiz(ennseven);
   await users[0].addQuiz(lovetouch);
   await users[1].addQuiz(lovetouch);
   await users[1].addQuiz(ennfour);
+
+  const ring1 = await Ring.findOne({where: {userId: 1, quizId: 1}});
+  await ring1.addNote(note1)
   
 
   console.log(`seeded ${users.length} users`)

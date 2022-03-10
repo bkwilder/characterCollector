@@ -1,27 +1,27 @@
 import axios from 'axios'
 
 
-const SET_QUIZZES = 'SET_QUIZZES'
+const SET_RING = 'SET_RING'
 
-export const setQuizzes = (quizzes) => {
+export const setRing = (ring) => {
     return {
-      type: SET_QUIZZES,
-      quizzes,
+      type: SET_RING,
+      ring,
     };
   };
 
 
-  export const fetchQuizzes = () => {
+  export const fetchRing = (id) => {
     return async (dispatch) => {
       try {
         const token = window.localStorage.getItem('token');
         if (token) {
-          const res = await axios.get('/api/quizzes', {
+          const res = await axios.get(`/api/rings/${id}`, {
               headers: {
                 authorization: token
               }
           });
-          dispatch(setQuizzes(res.data));
+          dispatch(setRing(res.data));
         }
       } catch (error) {
         console.log(error);
@@ -30,13 +30,16 @@ export const setQuizzes = (quizzes) => {
 };
 
 
-const initialState = [];
+const initialState = {
+  notes:[{note:''}],
+  quiz:{},
+};
 
 
-export default function quizzesReducer(state = initialState, action) {
+export default function ringsReducer(state = initialState, action) {
     switch (action.type) {
-      case SET_QUIZZES:
-        return action.quizzes;
+      case SET_RING:
+        return action.ring;
       default:
         return state;
     }
