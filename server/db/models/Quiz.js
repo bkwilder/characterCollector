@@ -13,7 +13,7 @@ const Quiz = db.define('quiz', {
         type: Sequelize.TEXT
     }, 
 
-    linkToQuiz: {
+    linkToResource: {
         type: Sequelize.STRING
     },
 

@@ -1,6 +1,6 @@
 'use strict'
 
-const {db, models: {User} } = require('../server/db')
+const {db, models: {User, Quiz} } = require('../server/db')
 
 /**
  * seed - this function clears the database, updates tables to
@@ -15,6 +15,43 @@ async function seed() {
     User.create({ username: 'cody123', password: '123' , firstName: 'Cody',  email: 'cody@seed.js' }),
     User.create({ username: 'murphy123', password: '123', firstName: 'Murphy',  email: 'murphy@seed.js'  }),
   ])
+
+  const quizzesVals = [
+    {
+      name: 'Enneagram',
+      value: "7: The Enthusiast",
+      description:
+        "The Busy, Variety-Seeking Type: Spontaneous, Versatile, Acquisitive, and Scattered",
+      image:
+        "https://images.squarespace-cdn.com/content/v1/585179fe1b631b51e1837bac/1482155875727-5H6T695BP0HSOTYWTD0B/image-asset.gif?format=500w",
+
+      linkToResource: 'https://www.enneagraminstitute.com/type-descriptions'
+    },
+    {
+      name: 'Enneagram',
+      value: "4: The Individualist",
+      description:
+        "The Sensitive, Introspective Type:Expressive, Dramatic, Self-Absorbed, and Temperamental",
+      image:
+        "https://images.squarespace-cdn.com/content/v1/585179fe1b631b51e1837bac/1481922116625-6PLCPBH7OAJA4RU1JXX2/image-asset.gif?format=500w",
+      linkToResource: 'https://www.enneagraminstitute.com/type-descriptions'
+    },
+    {
+      name: "Love Languages",
+      value: 'Physical Touch',
+      description:
+        "All the Love",
+      image:
+        "https://images.squarespace-cdn.com/content/v1/585179fe1b631b51e1837bac/1481922116625-6PLCPBH7OAJA4RU1JXX2/image-asset.gif?format=500w",
+        linkToResource: 'https://www.enneagraminstitute.com/type-descriptions'
+    }
+  ]
+  const [ennseven, ennfour, lovetouch] = await Promise.all(quizzesVals.map(quiz => Quiz.create(quiz)))
+
+  await users[0].addQuiz(ennseven);
+  await users[0].addQuiz(lovetouch);
+  await users[1].addQuiz(ennfour);
+  
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
