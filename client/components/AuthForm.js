@@ -1,36 +1,57 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import {authenticate} from '../store'
+import React from "react";
+import { connect } from "react-redux";
+import { authenticate } from "../store";
 
 /**
  * COMPONENT
  */
-const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props
-
+const AuthForm = (props) => {
+  const { name, displayName, handleSubmit, error } = props;
+  let signUpFields = <div></div>;
+  if (name === "signup") {
+    signUpFields = (
+      <div>
+        <div className='input'>
+          <label htmlFor="email">
+            <small>EMAIL</small>
+          </label>
+          <input className="text-input" name="email" type="text" />
+        </div>
+        <div className='input'>
+          <label htmlFor="firstname">
+            <small>FIRST NAME</small>
+          </label>
+          <input className="text-input" name="firstname" type="text" />
+        </div>
+      </div>
+    );
+  }
   return (
-    <div>
+    <div className = 'login'>
+    <div className='form'>
       <form onSubmit={handleSubmit} name={name}>
-        <div>
+        <div className='input'>
           <label htmlFor="username">
-            <small>Username</small>
+            <small>USERNAME</small>
           </label>
-          <input name="username" type="text" />
+          <input className="text-input" name="username" type="text" />
         </div>
-        <div>
+        <div className='input'>
           <label htmlFor="password">
-            <small>Password</small>
+            <small>PASSWORD</small>
           </label>
-          <input name="password" type="password" />
+          <input className="text-input" name="password" type="password" />
         </div>
-        <div>
+        {signUpFields}
+        <div className="form">
           <button type="submit">{displayName}</button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
     </div>
-  )
-}
+    </div>
+  );
+};
 
 /**
  * CONTAINER
@@ -39,33 +60,33 @@ const AuthForm = props => {
  *   function, and share the same Component. This is a good example of how we
  *   can stay DRY with interfaces that are very similar to each other!
  */
-const mapLogin = state => {
+const mapLogin = (state) => {
   return {
-    name: 'login',
-    displayName: 'Login',
-    error: state.auth.error
-  }
-}
+    name: "login",
+    displayName: "Login",
+    error: state.auth.error,
+  };
+};
 
-const mapSignup = state => {
+const mapSignup = (state) => {
   return {
-    name: 'signup',
-    displayName: 'Sign Up',
-    error: state.auth.error
-  }
-}
+    name: "signup",
+    displayName: "Sign Up",
+    error: state.auth.error,
+  };
+};
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
     handleSubmit(evt) {
-      evt.preventDefault()
-      const formName = evt.target.name
-      const username = evt.target.username.value
-      const password = evt.target.password.value
-      dispatch(authenticate(username, password, formName))
-    }
-  }
-}
+      evt.preventDefault();
+      const formName = evt.target.name;
+      const username = evt.target.username.value;
+      const password = evt.target.password.value;
+      dispatch(authenticate(username, password, formName));
+    },
+  };
+};
 
-export const Login = connect(mapLogin, mapDispatch)(AuthForm)
-export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
+export const Login = connect(mapLogin, mapDispatch)(AuthForm);
+export const Signup = connect(mapSignup, mapDispatch)(AuthForm);
